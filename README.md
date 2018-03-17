@@ -37,10 +37,10 @@ SimpleIoc.Default.Register<IPostsHandler>(()=> new PostsHandler());
 //get the latest or filtered data
 var latestPosts = await _postsHandler.GetPostsAsync(BaseUrl, 20, 20, 1, categories);
 ```
-That's it!
+
+You can get a more detailed overview in the [Wiki](https://github.com/MSiccDev/WordPressReaderStd/wiki)
 
 
-All Handlers are fully commented with their parameters which should help to use the library until the documentation is ready (work in progress, will be in the Wiki here once it is ready).
 
 If you are experiencing difficulties or have ideas, feel free to contribute via issues or even pull requests.
 
