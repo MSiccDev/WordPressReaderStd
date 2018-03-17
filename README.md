@@ -2,13 +2,11 @@
 
 WordPressReaderStd aims to simplify development of WordPress reader apps. It is written and compiled with .netStandard 1.4 to enable usage of it everywhere you can use .netStandard libraries. The only dependecy it has is Newtonsoft.Json just because you cannot find any better json-library out there.
 
-Currently, the library is only available here, but it will be soon available on Nuget as well.
-
-#### Note: this is a v1.0-release, there may be bugs.
+The library is also available on [Nuget](https://www.nuget.org/packages/WordPressReader/)
 
 ## Features:
 
-1. Fetch and filter:
+1. get and filter:
   + posts
   + pages
   + comments
@@ -39,7 +37,6 @@ var latestPosts = await _postsHandler.GetPostsAsync(BaseUrl, 20, 20, 1, categori
 ```
 
 You can get a more detailed overview in the [Wiki](https://github.com/MSiccDev/WordPressReaderStd/wiki)
-
 
 
 If you are experiencing difficulties or have ideas, feel free to contribute via issues or even pull requests.
