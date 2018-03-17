@@ -13,15 +13,20 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <Authors>MSiccDev Software Development</Authors>
     <Company>MSiccDev Software Development</Company>
-    <Copyright>Copyright ©  MSiccDev 2018</Copyright>
-    <PackageReleaseNotes></PackageReleaseNotes>
-    <Description>.NET Standard Library for the most common WordPress Tasks (Reader)</Description>
+    <Copyright>Copyright © MSiccDev Software Development</Copyright>
+    <PackageReleaseNotes>bug fixes</PackageReleaseNotes>
+    <Description>WordPressReaderStd aims to simplify development of WordPress reader apps. It is written and compiled with .netStandard 1.4 to enable usage of it everywhere you can use .netStandard libraries.</Description>
     <AssemblyName>WordPressReader</AssemblyName>
     <RootNamespace>WordPressReader</RootNamespace>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>WordPress, Rest, API, CSharp, C#, netstandard,</PackageTags>
-    <PackageLicenseUrl>https://msiccdev.net/oss-license/</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/MSiccDev/WordPressReaderStd/blob/master/LICENSE</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/MSiccDev/WordPressReaderStd</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MSiccDev/WordPressReaderStd</RepositoryUrl>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
   </PropertyGroup>
 
 

@@ -23,8 +23,9 @@ namespace WordPressReader
         /// <summary>
         /// creates a new instance of TagHandler with the specified parameters or default values
         /// </summary>
-        public TagHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null)
+        public TagHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
+            _throwSerializationExceptions = throwSerializationExceptions;
             _tagClient = SetupClient(modifiedSince, userAgent, version);
         }
 
@@ -49,7 +50,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Tag>(responseJson);
+                result = new WordPressEntitySet<Tag>(responseJson, null, _throwSerializationExceptions);
+            }
+            else
+            {
+                var errorJson = await response.Content.ReadAsStringAsync();
+                result = new WordPressEntitySet<Tag>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;
@@ -77,12 +83,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Tag>(responseJson);
+                result = new WordPressEntitySet<Tag>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Tag>(null, errorJson);
+                result = new WordPressEntitySet<Tag>(null, errorJson, _throwSerializationExceptions);
             }
             return result;
         }

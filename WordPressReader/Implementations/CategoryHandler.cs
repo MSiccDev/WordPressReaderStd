@@ -22,8 +22,9 @@ namespace WordPressReader.Implementations
         /// <summary>
         /// creates a new instance of PostsHandler with the specified parameters or default values
         /// </summary>
-        public CategoryHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null)
+        public CategoryHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
+            _throwSerializationExceptions = throwSerializationExceptions;
             _categoriesClient = SetupClient(modifiedSince, userAgent, version);
         }
 
@@ -44,12 +45,12 @@ namespace WordPressReader.Implementations
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Category>(responseJson);
+                result = new WordPressEntitySet<Category>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Category>(null, errorJson);
+                result = new WordPressEntitySet<Category>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;
@@ -69,12 +70,12 @@ namespace WordPressReader.Implementations
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Category>(responseJson);
+                result = new WordPressEntity<Category>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Category>(null, errorJson);
+                result = new WordPressEntity<Category>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;

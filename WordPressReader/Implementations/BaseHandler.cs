@@ -6,6 +6,8 @@ namespace WordPressReader
 {
     public abstract class BaseHandler
     {
+        internal bool _throwSerializationExceptions { get; set; } = true;
+
         /// <summary>
         /// setting up the client with default values
         /// </summary>

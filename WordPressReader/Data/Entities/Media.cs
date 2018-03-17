@@ -63,7 +63,7 @@ namespace WordPressReader.Data.Entities
         public string ModifiedGmt { get; set; }
 
         [JsonProperty("post")]
-        public long Post { get; set; }
+        public long? Post { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }

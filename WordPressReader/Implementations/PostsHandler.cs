@@ -28,8 +28,9 @@ namespace WordPressReader
         /// <summary>
         /// creates a new instance of PostsHandler with the specified parameters or default values
         /// </summary>
-        public PostsHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null)
+        public PostsHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
+            _throwSerializationExceptions = throwSerializationExceptions;
             _postsClient = SetupClient(modifiedSince, userAgent, version);
         }
 
@@ -58,12 +59,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<BlogPost>(responseJson);
+                result = new WordPressEntitySet<BlogPost>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<BlogPost>(null, errorJson);
+                result = new WordPressEntitySet<BlogPost>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;
@@ -83,12 +84,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<BlogPost>(responseJson);
+                result = new WordPressEntity<BlogPost>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<BlogPost>(null, errorJson);
+                result = new WordPressEntity<BlogPost>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;
@@ -113,12 +114,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<BlogPost>(responseJson);
+                result = new WordPressEntitySet<BlogPost>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<BlogPost>(null, errorJson);
+                result = new WordPressEntitySet<BlogPost>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;
@@ -146,12 +147,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<BlogPost>(responseJson);
+                result = new WordPressEntitySet<BlogPost>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<BlogPost>(null, errorJson);
+                result = new WordPressEntitySet<BlogPost>(null, errorJson, _throwSerializationExceptions);
             }
             return result;
         }
@@ -187,12 +188,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<BlogPost>(responseJson);
+                result = new WordPressEntitySet<BlogPost>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<BlogPost>(null, errorJson);
+                result = new WordPressEntitySet<BlogPost>(null, errorJson, _throwSerializationExceptions);
 
             }
 

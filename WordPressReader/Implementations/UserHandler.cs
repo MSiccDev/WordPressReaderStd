@@ -20,8 +20,9 @@ namespace WordPressReader
         /// <summary>
         /// creates a new instance of UserHandler with the specified parameters or default values
         /// </summary>
-        public UserHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null)
+        public UserHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
+            _throwSerializationExceptions = throwSerializationExceptions;
             _userClient = SetupClient(modifiedSince, userAgent, version);
         }
 
@@ -39,13 +40,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<User>(responseJson);
+                result = new WordPressEntity<User>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<User>(null, errorJson);
-
+                result = new WordPressEntity<User>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;

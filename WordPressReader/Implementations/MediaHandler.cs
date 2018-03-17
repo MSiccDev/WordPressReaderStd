@@ -22,8 +22,9 @@ namespace WordPressReader
         /// <summary>
         /// creates a new instance of MediaHandler with the specified parameters or default values
         /// </summary>
-        public MediaHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null)
+        public MediaHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
+            _throwSerializationExceptions = throwSerializationExceptions;
             _mediaClient = SetupClient(modifiedSince, userAgent, version);
         }
 
@@ -42,12 +43,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Media>(responseJson);
+                result = new WordPressEntity<Media>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Media>(null, errorJson);
+                result = new WordPressEntity<Media>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;
@@ -84,12 +85,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Media>(responseJson);
+                result = new WordPressEntitySet<Media>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Media>(null, errorJson);
+                result = new WordPressEntitySet<Media>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;

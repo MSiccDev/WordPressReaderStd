@@ -25,8 +25,9 @@ namespace WordPressReader
         /// <summary>
         /// creates a new instance of PostsHandler with the specified parameters or default values
         /// </summary>
-        public CommentHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null)
+        public CommentHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
+            _throwSerializationExceptions = throwSerializationExceptions;
             _commentsClient = SetupClient(modifiedSince, userAgent, version);
         }
 
@@ -51,16 +52,17 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Comment>(responseJson);
+                result = new WordPressEntitySet<Comment>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Comment>(null, errorJson);
+                result = new WordPressEntitySet<Comment>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;
         }
+
 
         /// <summary>
         /// creates a new comment with an anonymous user. Requires the site to be set up for this
@@ -93,12 +95,12 @@ namespace WordPressReader
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Comment>(responseJson);
+                result = new WordPressEntity<Comment>(responseJson, null, _throwSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Comment>(null, errorJson);
+                result = new WordPressEntity<Comment>(null, errorJson, _throwSerializationExceptions);
             }
 
             return result;

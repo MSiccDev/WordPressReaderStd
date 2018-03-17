@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using WordPressReader.Data.Entities;
 
 namespace WordPressReader.Data.Models
@@ -7,13 +9,28 @@ namespace WordPressReader.Data.Models
     {
         private readonly JsonSerializerSettings _jsonSerializerSettings;
 
-        public WordPressEntity(string json, string errorJson = null)
+        public WordPressEntity(string json, string errorJson = null, bool throwExceptions = true)
         {
             _jsonSerializerSettings = new JsonSerializerSettings()
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-                DateParseHandling = DateParseHandling.None,
+                DateParseHandling = DateParseHandling.None,             
             };
+
+            if (!throwExceptions)
+            {
+                _jsonSerializerSettings.Error = delegate (object sender, ErrorEventArgs args)
+                {
+                    this.Error = new ApiError()
+                    {
+                        Code = args.CurrentObject.GetType().ToString(),
+                        Data = new StatusCode() { Code = 0 },
+                        Message = args.ErrorContext.Error.Message
+                    };
+
+                    args.ErrorContext.Handled = true;
+                };
+            }
 
             if (!string.IsNullOrEmpty(json))
                 this.Value = FromJson(json);
@@ -23,6 +40,7 @@ namespace WordPressReader.Data.Models
 
             this.Raw = json;
             this.RawError = errorJson;
+
         }
 
 
@@ -50,7 +68,7 @@ namespace WordPressReader.Data.Models
 
         public TWordPressEntity Value { get; }
 
-        public ApiError Error { get; }
+        public ApiError Error { get; private set;  }
 
 
 

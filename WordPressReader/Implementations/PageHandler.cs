@@ -24,8 +24,9 @@ namespace WordPressReader
         /// <summary>
         /// creates a new instance of PageHandler with the specified parameters or default values
         /// </summary>
-        public PageHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null)
+        public PageHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
+            _throwSerializationExceptions = throwSerializationExceptions;
             _pagesClient = SetupClient(modifiedSince, userAgent, version);
         }
 
@@ -48,12 +49,12 @@ namespace WordPressReader
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = await response.Content.ReadAsStringAsync();
-                    result = new WordPressEntitySet<Page>(responseJson);
+                    result = new WordPressEntitySet<Page>(responseJson, null, _throwSerializationExceptions);
                 }
                 else
                 {
                     var errorJson = await response.Content.ReadAsStringAsync();
-                    result = new WordPressEntitySet<Page>(null, errorJson);
+                    result = new WordPressEntitySet<Page>(null, errorJson, _throwSerializationExceptions);
                 }
             }
             return result;
@@ -75,12 +76,12 @@ namespace WordPressReader
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = await response.Content.ReadAsStringAsync();
-                    result = new WordPressEntity<Page>(responseJson);
+                    result = new WordPressEntity<Page>(responseJson, null, _throwSerializationExceptions);
                 }
                 else
                 {
                     var errorJson = await response.Content.ReadAsStringAsync();
-                    result = new WordPressEntity<Page>(null, errorJson);
+                    result = new WordPressEntity<Page>(null, errorJson, _throwSerializationExceptions);
                 }
             }
             return result;
