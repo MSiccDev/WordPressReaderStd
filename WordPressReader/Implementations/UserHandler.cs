@@ -10,11 +10,9 @@ namespace WordPressReader
 {
     public class UserHandler : BaseHandler, IUserHandler
     {
-        private readonly HttpClient _userClient;
 
         public UserHandler()
         {
-            _userClient = SetupClient();
         }
 
         /// <summary>
@@ -22,8 +20,8 @@ namespace WordPressReader
         /// </summary>
         public UserHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
-            _throwSerializationExceptions = throwSerializationExceptions;
-            _userClient = SetupClient(modifiedSince, userAgent, version);
+            ThrowSerializationExceptions = throwSerializationExceptions;
+            SetupClient(modifiedSince, userAgent, version);
         }
 
         /// <summary>
@@ -35,17 +33,15 @@ namespace WordPressReader
         {
             WordPressEntity<User> result = null;
 
-            var response = await _userClient.GetAsync(baseUrl.GetEntityApiUrl(userId, Resource.User));
+            var response = await HttpClientInstance.GetAsync(baseUrl.GetEntityApiUrl(userId, Resource.User));
 
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<User>(responseJson, null, _throwSerializationExceptions);
+                result = new WordPressEntity<User>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
-                var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<User>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntity<User>(response.Content, true, ThrowSerializationExceptions);
             }
 
             return result;

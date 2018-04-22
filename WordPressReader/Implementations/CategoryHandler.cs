@@ -8,15 +8,13 @@ using WordPressReader.Data.Entities;
 using WordPressReader.Data.Models;
 using WordPressReader.Helpers;
 
-namespace WordPressReader.Implementations
+namespace WordPressReader
 {
     public class CategoryHandler : BaseHandler, ICategoryHandler
     {
-        private static HttpClient _categoriesClient;
 
         public CategoryHandler()
         {
-            _categoriesClient = SetupClient();
         }
 
         /// <summary>
@@ -24,8 +22,8 @@ namespace WordPressReader.Implementations
         /// </summary>
         public CategoryHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
-            _throwSerializationExceptions = throwSerializationExceptions;
-            _categoriesClient = SetupClient(modifiedSince, userAgent, version);
+            ThrowSerializationExceptions = throwSerializationExceptions;
+            SetupClient(modifiedSince, userAgent, version);
         }
 
         /// <summary>
@@ -40,17 +38,15 @@ namespace WordPressReader.Implementations
         {
             WordPressEntitySet<Category> result = null;
 
-            var response = await _categoriesClient.GetAsync(baseUrl.GetEntitySetApiUrl(Resource.Categories, perPage, count, pageNr, order)).ConfigureAwait(false);
+            var response = await HttpClientInstance.GetAsync(baseUrl.GetEntitySetApiUrl(Resource.Categories, perPage, count, pageNr, order)).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Category>(responseJson, null, _throwSerializationExceptions);
+                   result = new WordPressEntitySet<Category>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
-                var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Category>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Category>(response.Content, true, ThrowSerializationExceptions);
             }
 
             return result;
@@ -65,17 +61,17 @@ namespace WordPressReader.Implementations
         {
             WordPressEntity<Category> result = null;
 
-            var response = await _categoriesClient.GetAsync(baseUrl.GetEntityApiUrl(categoryId)).ConfigureAwait(false);
+            var response = await HttpClientInstance.GetAsync(baseUrl.GetEntityApiUrl(categoryId)).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Category>(responseJson, null, _throwSerializationExceptions);
+                result = new WordPressEntity<Category>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
                 var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Category>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntity<Category>(response.Content, true, ThrowSerializationExceptions);
             }
 
             return result;

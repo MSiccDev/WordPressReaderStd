@@ -14,7 +14,7 @@
     <Authors>MSiccDev Software Development</Authors>
     <Company>MSiccDev Software Development</Company>
     <Copyright>Copyright © MSiccDev Software Development</Copyright>
-    <PackageReleaseNotes>bug fixes</PackageReleaseNotes>
+    <PackageReleaseNotes>improved performance and bug fixes; added option to pass in a self constructed HttpClient instance;</PackageReleaseNotes>
     <Description>WordPressReaderStd aims to simplify development of WordPress reader apps. It is written and compiled with .netStandard 1.4 to enable usage of it everywhere you can use .netStandard libraries.</Description>
     <AssemblyName>WordPressReader</AssemblyName>
     <RootNamespace>WordPressReader</RootNamespace>
@@ -24,9 +24,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/MSiccDev/WordPressReaderStd</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MSiccDev/WordPressReaderStd</RepositoryUrl>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.1.1.0</AssemblyVersion>
-    <FileVersion>1.1.1.0</FileVersion>
+    <Version>1.2.0</Version>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
 
 
@@ -38,7 +38,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
 

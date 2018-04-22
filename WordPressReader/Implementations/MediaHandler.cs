@@ -12,11 +12,9 @@ namespace WordPressReader
 
     public class MediaHandler : BaseHandler, IMediaHandler
     {
-        private static HttpClient _mediaClient;
 
         public MediaHandler()
         {
-            _mediaClient = SetupClient();
         }
 
         /// <summary>
@@ -24,8 +22,8 @@ namespace WordPressReader
         /// </summary>
         public MediaHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
-            _throwSerializationExceptions = throwSerializationExceptions;
-            _mediaClient = SetupClient(modifiedSince, userAgent, version);
+            ThrowSerializationExceptions = throwSerializationExceptions;
+            SetupClient(modifiedSince, userAgent, version);
         }
 
 
@@ -38,17 +36,15 @@ namespace WordPressReader
         {
             WordPressEntity<Media> result = null;
 
-            var response = await _mediaClient.GetAsync(baseUrl.GetEntityApiUrl(mediaId, Resource.Media));
+            var response = await HttpClientInstance.GetAsync(baseUrl.GetEntityApiUrl(mediaId, Resource.Media));
 
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Media>(responseJson, null, _throwSerializationExceptions);
+                result = new WordPressEntity<Media>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
-                var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Media>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntity<Media>(response.Content, true, ThrowSerializationExceptions);
             }
 
             return result;
@@ -77,20 +73,18 @@ namespace WordPressReader
             if (!string.IsNullOrEmpty(mimeType))
                 mediaParams.Add(Constants.MediaMimeTypeParameter, mimeType);
 
-            var response = await _mediaClient.GetAsync(
+            var response = await HttpClientInstance.GetAsync(
                 baseUrl.GetEntitySetApiUrl(Resource.Media, perPage, count, pageNr, orderby, order)
                 .AddParametersToUrl(mediaParams))
                 .ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Media>(responseJson, null, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Media>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
-                var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Media>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Media>(response.Content, true, ThrowSerializationExceptions);
             }
 
             return result;

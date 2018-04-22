@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using WordPressReader.Data.Entities;
 using WordPressReader.Data.Models;
@@ -92,5 +94,6 @@ namespace WordPressReader.Helpers
 
             return result;
         }
+
     }
 }

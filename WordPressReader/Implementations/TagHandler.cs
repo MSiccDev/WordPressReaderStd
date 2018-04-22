@@ -13,11 +13,9 @@ namespace WordPressReader
 {
     public class TagHandler : BaseHandler, ITagHandler
     {
-        private static HttpClient _tagClient;
 
         public TagHandler()
         {
-            _tagClient = SetupClient();
         }
 
         /// <summary>
@@ -25,8 +23,8 @@ namespace WordPressReader
         /// </summary>
         public TagHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
-            _throwSerializationExceptions = throwSerializationExceptions;
-            _tagClient = SetupClient(modifiedSince, userAgent, version);
+            ThrowSerializationExceptions = throwSerializationExceptions;
+            SetupClient(modifiedSince, userAgent, version);
         }
 
 
@@ -45,17 +43,15 @@ namespace WordPressReader
         {
             WordPressEntitySet<Tag> result = null;
 
-            var response = await _tagClient.GetAsync(baseUrl.GetEntitySetApiUrl(Resource.Tags, perPage, count, page, OrderBy.Name));
+            var response = await HttpClientInstance.GetAsync(baseUrl.GetEntitySetApiUrl(Resource.Tags, perPage, count, page, OrderBy.Name));
 
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Tag>(responseJson, null, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Tag>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
-                var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Tag>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Tag>(response.Content, true, ThrowSerializationExceptions);
             }
 
             return result;
@@ -75,20 +71,18 @@ namespace WordPressReader
             WordPressEntitySet<Tag> result = null;
 
 
-            var response = await _tagClient.GetAsync(
+            var response = await HttpClientInstance.GetAsync(
                 baseUrl.GetEntitySetApiUrl(Resource.Tags, perPage, count, page, OrderBy.Name)
                 .AddParameterToUrl("search", WebUtility.UrlEncode(searchTerm)))
                 .ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Tag>(responseJson, null, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Tag>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
-                var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Tag>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Tag>(response.Content, true, ThrowSerializationExceptions);
             }
             return result;
         }

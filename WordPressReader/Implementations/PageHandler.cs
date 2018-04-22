@@ -13,11 +13,9 @@ namespace WordPressReader
     public class PageHandler : BaseHandler, IPageHandler
     {
 
-        private static HttpClient _pagesClient;
 
         public PageHandler()
         {
-            _pagesClient = SetupClient();
         }
 
 
@@ -26,8 +24,8 @@ namespace WordPressReader
         /// </summary>
         public PageHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
-            _throwSerializationExceptions = throwSerializationExceptions;
-            _pagesClient = SetupClient(modifiedSince, userAgent, version);
+            ThrowSerializationExceptions = throwSerializationExceptions;
+            SetupClient(modifiedSince, userAgent, version);
         }
 
         /// <summary>
@@ -42,21 +40,17 @@ namespace WordPressReader
         {
             WordPressEntitySet<Page> result = null;
 
-            if (_pagesClient != null)
-            {
-                var response = await _pagesClient.GetAsync(baseUrl.GetEntitySetApiUrl(Resource.Pages, perPage, count, pageNr, OrderBy.Title));
+                var response = await HttpClientInstance.GetAsync(baseUrl.GetEntitySetApiUrl(Resource.Pages, perPage, count, pageNr, OrderBy.Title));
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseJson = await response.Content.ReadAsStringAsync();
-                    result = new WordPressEntitySet<Page>(responseJson, null, _throwSerializationExceptions);
+                    result = new WordPressEntitySet<Page>(response.Content, false, ThrowSerializationExceptions);
                 }
                 else
                 {
-                    var errorJson = await response.Content.ReadAsStringAsync();
-                    result = new WordPressEntitySet<Page>(null, errorJson, _throwSerializationExceptions);
+                    result = new WordPressEntitySet<Page>(response.Content, true, ThrowSerializationExceptions);
                 }
-            }
+            
             return result;
         }
 
@@ -69,21 +63,17 @@ namespace WordPressReader
         {
             WordPressEntity<Page> result = null;
 
-            if (_pagesClient != null)
-            {
-                var response = await _pagesClient.GetAsync(baseUrl.GetEntityApiUrl(id, Resource.Pages));
+                var response = await HttpClientInstance.GetAsync(baseUrl.GetEntityApiUrl(id, Resource.Pages));
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseJson = await response.Content.ReadAsStringAsync();
-                    result = new WordPressEntity<Page>(responseJson, null, _throwSerializationExceptions);
+                    result = new WordPressEntity<Page>(response.Content, false, ThrowSerializationExceptions);
                 }
                 else
                 {
-                    var errorJson = await response.Content.ReadAsStringAsync();
-                    result = new WordPressEntity<Page>(null, errorJson, _throwSerializationExceptions);
+                    result = new WordPressEntity<Page>(response.Content, true, ThrowSerializationExceptions);
                 }
-            }
+            
             return result;
         }
     }

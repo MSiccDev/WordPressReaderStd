@@ -11,9 +11,16 @@ namespace WordPressReader
     public interface IPostsHandler
     {
         /// <summary>
+        /// Allows to configure your own HttpClient and pass it in here;
+        /// will be set as static instance internally as HttpClient is built for reuse
+        /// </summary>
+        /// <param name="client">The HttpClient instance to use for all requests</param>
+        void SetCustomClient(HttpClient client);
+
+        /// <summary>
         /// creates a new instance of HttpClient with the specified parameters or default values
         /// </summary>
-        HttpClient SetupClient(DateTime? modifiedSince = null, string userAgent = null, string version = null);
+        HttpClient SetupClient(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool useCompression = true);
 
         /// <summary>
         /// setting the user agent of an already existing HttpClient

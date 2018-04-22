@@ -15,11 +15,9 @@ namespace WordPressReader
 
     public class CommentHandler : BaseHandler, ICommentHandler
     {
-        private readonly HttpClient _commentsClient;
 
         public CommentHandler()
         {
-            _commentsClient = SetupClient();
         }
 
         /// <summary>
@@ -27,8 +25,8 @@ namespace WordPressReader
         /// </summary>
         public CommentHandler(DateTime? modifiedSince = null, string userAgent = null, string version = null, bool throwSerializationExceptions = true)
         {
-            _throwSerializationExceptions = throwSerializationExceptions;
-            _commentsClient = SetupClient(modifiedSince, userAgent, version);
+            ThrowSerializationExceptions = throwSerializationExceptions;
+            SetupClient(modifiedSince, userAgent, version);
         }
 
         /// <summary>
@@ -41,7 +39,7 @@ namespace WordPressReader
         {
             WordPressEntitySet<Comment> result = null;
 
-            var response = await _commentsClient.GetAsync(commentsUrl.AddParametersToUrl(
+            var response = await HttpClientInstance.GetAsync(commentsUrl.AddParametersToUrl(
                 new Dictionary<string, string>()
                 {
                     ["type"] = "comment",
@@ -51,13 +49,11 @@ namespace WordPressReader
 
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Comment>(responseJson, null, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Comment>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
-                var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntitySet<Comment>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntitySet<Comment>(response.Content, true, ThrowSerializationExceptions);
             }
 
             return result;
@@ -90,17 +86,15 @@ namespace WordPressReader
                 postCommentUrl = postCommentUrl.AddParameterToUrl("parent", parentId.ToString());
             }
 
-            var response = await _commentsClient.PostAsync(postCommentUrl, null).ConfigureAwait(false);
+            var response = await HttpClientInstance.PostAsync(postCommentUrl, null).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Comment>(responseJson, null, _throwSerializationExceptions);
+                result = new WordPressEntity<Comment>(response.Content, false, ThrowSerializationExceptions);
             }
             else
             {
-                var errorJson = await response.Content.ReadAsStringAsync();
-                result = new WordPressEntity<Comment>(null, errorJson, _throwSerializationExceptions);
+                result = new WordPressEntity<Comment>(response.Content, true, ThrowSerializationExceptions);
             }
 
             return result;
