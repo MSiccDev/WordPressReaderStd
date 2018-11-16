@@ -22,7 +22,7 @@ namespace WordPressReader.Data.Models
 
             if (!throwExceptions)
             {
-                _jsonSerializerSettings.Error = delegate (object sender, ErrorEventArgs args)
+                _jsonSerializerSettings.Error = delegate (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
                                                 {
                                                     this.Error = new ApiError()
                                                     {
