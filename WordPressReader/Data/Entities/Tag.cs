@@ -28,8 +28,9 @@ namespace WordPressReader.Data.Entities
         [JsonProperty("taxonomy")]
         public string Taxonomy { get; set; }
 
+        //can be too different from blog to blog, hence yousing dynamic
         [JsonProperty("meta")]
-        public List<object> Meta { get; set; }
+        public dynamic Meta { get; set; }
 
         [JsonProperty("_links")]
         public TagLinks Links { get; set; }

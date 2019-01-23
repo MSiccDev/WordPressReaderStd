@@ -50,8 +50,9 @@ namespace WordPressReader.Data.Entities
         [JsonProperty("jetpack-related-posts")]
         public List<JetpackRelatedPost> JetpackRelatedPosts { get; set; }
 
+        //can be too different from blog to blog, hence yousing dynamic
         [JsonProperty("meta")]
-        public List<object> Meta { get; set; }
+        public dynamic Meta { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }

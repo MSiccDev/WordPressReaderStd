@@ -17,8 +17,9 @@ namespace WordPressReader.Data.Entities
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        //can be too different from blog to blog, hence yousing dynamic
         [JsonProperty("meta")]
-        public List<object> Meta { get; set; }
+        public dynamic Meta { get; set; }
 
         [JsonProperty("slug")]
         public string Slug { get; set; }

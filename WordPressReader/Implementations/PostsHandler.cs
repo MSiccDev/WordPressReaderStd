@@ -53,6 +53,7 @@ namespace WordPressReader
 
             if (response.IsSuccessStatusCode)
             {
+                var json = await response.Content.ReadAsStringAsync();
                 result = new WordPressEntitySet<BlogPost>(response.Content, false, ThrowSerializationExceptions);
             }
             else
