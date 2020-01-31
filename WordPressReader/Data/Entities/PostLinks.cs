@@ -5,35 +5,38 @@ namespace WordPressReader.Data.Entities
 {
     public class PostLinks
     {
-        [JsonProperty("curies")]
-        public List<Cury> Curies { get; set; }
+        #region Public Properties
 
-        [JsonProperty("author")]
-        public List<EmbeddableLink> EmbeddableLink { get; set; }
+        [JsonProperty("collection", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Collection { get; set; }
 
-        [JsonProperty("Link")]
-        public List<Link> Link { get; set; }
+        [JsonProperty("curies", NullValueHandling = NullValueHandling.Include)]
+        public List<Cury>? Curies { get; set; }
 
-        [JsonProperty("collection")]
-        public List<Link> Collection { get; set; }
+        [JsonProperty("author", NullValueHandling = NullValueHandling.Include)]
+        public List<EmbeddableLink>? EmbeddableLink { get; set; }
 
-        [JsonProperty("self")]
-        public List<Link> Self { get; set; }
+        [JsonProperty("Link", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Link { get; set; }
 
-        [JsonProperty("wp:attachment")]
-        public List<Link> WpAttachment { get; set; }
+        [JsonProperty("replies", NullValueHandling = NullValueHandling.Include)]
+        public List<EmbeddableLink>? Replies { get; set; }
 
-        [JsonProperty("replies")]
-        public List<EmbeddableLink> Replies { get; set; }
+        [JsonProperty("self", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Self { get; set; }
 
-        [JsonProperty("version-history")]
-        public List<Link> VersionHistory { get; set; }
+        [JsonProperty("version-history", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? VersionHistory { get; set; }
 
-        [JsonProperty("wp:featuredmedia")]
-        public List<EmbeddableLink> WpFeaturedmedia { get; set; }
+        [JsonProperty("wp:attachment", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? WpAttachment { get; set; }
 
-        [JsonProperty("wp:term")]
-        public List<WpTerm> WpTerm { get; set; }
+        [JsonProperty("wp:featuredmedia", NullValueHandling = NullValueHandling.Include)]
+        public List<EmbeddableLink>? WpFeaturedmedia { get; set; }
+
+        [JsonProperty("wp:term", NullValueHandling = NullValueHandling.Include)]
+        public List<WpTerm>? WpTerm { get; set; }
+
+        #endregion Public Properties
     }
-
 }

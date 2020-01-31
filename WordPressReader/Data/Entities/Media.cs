@@ -5,80 +5,84 @@ namespace WordPressReader.Data.Entities
 {
     public class Media
     {
-        [JsonProperty("description")]
-        public RenderedProperty Description { get; set; }
+        #region Public Properties
 
-        [JsonProperty("modified")]
-        public string Modified { get; set; }
-
-        [JsonProperty("caption")]
-        public RenderedProperty Caption { get; set; }
-
-        [JsonProperty("alt_text")]
-        public string AltText { get; set; }
-
-        [JsonProperty("_links")]
-        public MediaLinks Links { get; set; }
+        [JsonProperty("alt_text", NullValueHandling = NullValueHandling.Include)]
+        public string? AltText { get; set; }
 
         [JsonProperty("author")]
         public long Author { get; set; }
 
-        [JsonProperty("date")]
-        public string Date { get; set; }
+        [JsonProperty("caption", NullValueHandling = NullValueHandling.Include)]
+        public RenderedProperty? Caption { get; set; }
 
-        [JsonProperty("comment_status")]
-        public string CommentStatus { get; set; }
+        [JsonProperty("comment_status", NullValueHandling = NullValueHandling.Include)]
+        public string? CommentStatus { get; set; }
 
-        [JsonProperty("date_gmt")]
-        public string DateGmt { get; set; }
+        [JsonProperty("date", NullValueHandling = NullValueHandling.Include)]
+        public string? Date { get; set; }
 
-        [JsonProperty("media_details")]
-        public MediaDetails MediaDetails { get; set; }
+        [JsonProperty("date_gmt", NullValueHandling = NullValueHandling.Include)]
+        public string? DateGmt { get; set; }
+
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Include)]
+        public RenderedProperty? Description { get; set; }
+
+        [JsonProperty("guid", NullValueHandling = NullValueHandling.Include)]
+        public RenderedProperty? Guid { get; set; }
 
         [JsonProperty("id")]
         public long Id { get; set; }
 
-        [JsonProperty("guid")]
-        public RenderedProperty Guid { get; set; }
+        [JsonProperty("link", NullValueHandling = NullValueHandling.Include)]
+        public string? Link { get; set; }
 
-        [JsonProperty("link")]
-        public string Link { get; set; }
+        [JsonProperty("_links", NullValueHandling = NullValueHandling.Include)]
+        public MediaLinks? Links { get; set; }
+
+        [JsonProperty("media_details", NullValueHandling = NullValueHandling.Include)]
+        public MediaDetails? MediaDetails { get; set; }
+
+        [JsonProperty("media_type", NullValueHandling = NullValueHandling.Include)]
+        public string? MediaType { get; set; }
 
         //can be too different from blog to blog, hence yousing dynamic
-        [JsonProperty("meta")]
-        public dynamic Meta { get; set; }
+        [JsonProperty("meta", NullValueHandling = NullValueHandling.Include)]
+        public dynamic? Meta { get; set; }
 
-        [JsonProperty("media_type")]
-        public string MediaType { get; set; }
+        [JsonProperty("mime_type", NullValueHandling = NullValueHandling.Include)]
+        public string? MimeType { get; set; }
 
-        [JsonProperty("mime_type")]
-        public string MimeType { get; set; }
+        [JsonProperty("modified", NullValueHandling = NullValueHandling.Include)]
+        public string? Modified { get; set; }
 
-        [JsonProperty("slug")]
-        public string Slug { get; set; }
+        [JsonProperty("modified_gmt", NullValueHandling = NullValueHandling.Include)]
+        public string? ModifiedGmt { get; set; }
 
-        [JsonProperty("ping_status")]
-        public string PingStatus { get; set; }
+        [JsonProperty("ping_status", NullValueHandling = NullValueHandling.Include)]
+        public string? PingStatus { get; set; }
 
-        [JsonProperty("modified_gmt")]
-        public string ModifiedGmt { get; set; }
-
-        [JsonProperty("post")]
+        [JsonProperty("post", NullValueHandling = NullValueHandling.Include)]
         public long? Post { get; set; }
 
-        [JsonProperty("status")]
-        public string Status { get; set; }
+        [JsonProperty("slug", NullValueHandling = NullValueHandling.Include)]
+        public string? Slug { get; set; }
 
-        [JsonProperty("title")]
-        public RenderedProperty Title { get; set; }
+        [JsonProperty("source_url", NullValueHandling = NullValueHandling.Include)]
+        public string? SourceUrl { get; set; }
 
-        [JsonProperty("source_url")]
-        public string SourceUrl { get; set; }
+        [JsonProperty("status", NullValueHandling = NullValueHandling.Include)]
+        public string? Status { get; set; }
 
-        [JsonProperty("template")]
-        public string Template { get; set; }
+        [JsonProperty("template", NullValueHandling = NullValueHandling.Include)]
+        public string? Template { get; set; }
 
-        [JsonProperty("type")]
-        public string Type { get; set; }
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Include)]
+        public RenderedProperty? Title { get; set; }
+
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Include)]
+        public string? Type { get; set; }
+
+        #endregion Public Properties
     }
 }

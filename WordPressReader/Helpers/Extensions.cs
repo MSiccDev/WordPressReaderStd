@@ -11,29 +11,7 @@ namespace WordPressReader.Helpers
 {
     public static class Extensions
     {
-        /// <summary>
-        /// creates a string representation of an int[]
-        /// </summary>
-        public static string ToArrayString(this int[] array)
-        {
-            if (array.Length == 1)
-                return array[0].ToString();
-
-            if (array.Length > 1)
-            {
-                var sb = new StringBuilder();
-
-                array.ToList().ForEach(i => sb
-                    .Append(i)
-                    .Append(","));
-
-                var result = sb.ToString();
-
-                return result.EndsWith(",") ? result.Substring(0, result.Length - 1) : result;
-            }
-
-            return string.Empty;
-        }
+        #region Public Methods
 
         /// <summary>
         /// orders the input list by parent and date
@@ -66,15 +44,23 @@ namespace WordPressReader.Helpers
 
                 foreach (var list in commentsWithParent)
                 {
-                    var parent = result.Single(c => c.Id == list.Key);
-                    list.Value.ForEach(c => c.ChildLevel = parent.ChildLevel + 1);
-                    var orderedByDate = list.Value.OrderBy(c => DateTime.Parse(c.Date)).ToList();
+                    var parent = result.SingleOrDefault(c => c.Id == list.Key);
+                    if (parent != null)
+                    {
+                        list.Value.ForEach(c => c.ChildLevel = parent.ChildLevel + 1);
+                        var orderedByDate = list.Value.OrderBy(c => DateTime.Parse(c.Date)).ToList();
 
-                    if (result.Any(c => c.Id == parent.Id))
-                    { 
-                        var indexOfParent = result.IndexOf(parent);
-
-                        result.InsertRange(indexOfParent + 1, orderedByDate);
+                        if (result.Any(c => c.Id == parent.Id))
+                        {
+                            var indexOfParent = result.IndexOf(parent);
+                            result.InsertRange(indexOfParent + 1, orderedByDate);
+                        }
+                    }
+                    else
+                    {
+                        //fixing it in source
+                        comments.Value.SingleOrDefault(c => c.Id == list.Value.First().Id).Parent = 0;
+                        return comments.OrderCommentsByParentAndDate();
                     }
                 }
             }
@@ -82,6 +68,29 @@ namespace WordPressReader.Helpers
             return result;
         }
 
+        /// <summary>
+        /// creates a string representation of an int[]
+        /// </summary>
+        public static string ToArrayString(this int[] array)
+        {
+            if (array.Length == 1)
+                return array[0].ToString();
+
+            if (array.Length > 1)
+            {
+                var sb = new StringBuilder();
+
+                array.ToList().ForEach(i => sb
+                    .Append(i)
+                    .Append(","));
+
+                var result = sb.ToString();
+
+                return result.EndsWith(",") ? result.Substring(0, result.Length - 1) : result;
+            }
+
+            return string.Empty;
+        }
 
         /// <summary>
         /// tries to extract the slug from an url
@@ -95,5 +104,6 @@ namespace WordPressReader.Helpers
             return result;
         }
 
+        #endregion Public Methods
     }
 }

@@ -7,35 +7,39 @@ namespace WordPressReader.Data.Entities
 {
     public class Category
     {
-        [JsonProperty("id")]
-        public long Id { get; set; }
+        #region Public Properties
 
         [JsonProperty("count")]
         public long Count { get; set; }
 
-        [JsonProperty("description")]
-        public string Description { get; set; }
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Include)]
+        public string? Description { get; set; }
 
-        [JsonProperty("link")]
-        public string Link { get; set; }
+        [JsonProperty("id")]
+        public long Id { get; set; }
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("link", NullValueHandling = NullValueHandling.Include)]
+        public string? Link { get; set; }
 
-        [JsonProperty("slug")]
-        public string Slug { get; set; }
+        [JsonProperty("_links", NullValueHandling = NullValueHandling.Include)]
+        public CategoryLinks? Links { get; set; }
 
-        [JsonProperty("taxonomy")]
-        public string Taxonomy { get; set; }
+        //can be too different from blog to blog, hence yousing dynamic
+        [JsonProperty("meta", NullValueHandling = NullValueHandling.Include)]
+        public dynamic? Meta { get; set; }
+
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Include)]
+        public string? Name { get; set; }
 
         [JsonProperty("parent")]
         public long Parent { get; set; }
 
-        //can be too different from blog to blog, hence yousing dynamic
-        [JsonProperty("meta")]
-        public dynamic Meta { get; set; }
+        [JsonProperty("slug", NullValueHandling = NullValueHandling.Include)]
+        public string? Slug { get; set; }
 
-        [JsonProperty("_links")]
-        public CategoryLinks Links { get; set; }
+        [JsonProperty("taxonomy", NullValueHandling = NullValueHandling.Include)]
+        public string? Taxonomy { get; set; }
+
+        #endregion Public Properties
     }
 }

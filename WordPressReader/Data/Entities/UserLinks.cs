@@ -5,10 +5,14 @@ namespace WordPressReader.Data.Entities
 {
     public class UserLinks
     {
-        [JsonProperty("collection")]
-        public List<Link> Collection { get; set; }
+        #region Public Properties
 
-        [JsonProperty("self")]
-        public List<Link> Self { get; set; }
+        [JsonProperty("collection", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Collection { get; set; }
+
+        [JsonProperty("self", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Self { get; set; }
+
+        #endregion Public Properties
     }
 }

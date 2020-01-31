@@ -1,45 +1,27 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using WordPressReader.Data.Entities;
 
 namespace WordPressReader.Data.Models
 {
-    public class WordPressEntity<TWordPressEntity>
+    public class WordPressEntity<TWordPressEntity> where TWordPressEntity : class
     {
+        #region Private Fields
+
         private readonly JsonSerializerSettings _jsonSerializerSettings;
-        private JsonSerializer _jsonSerializer = null;
+        private JsonSerializer? _jsonSerializer = null;
 
-        private WordPressEntity(bool throwExceptions)
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public WordPressEntity(string json, string? errorJson = null, bool throwExceptions = true) : this(throwExceptions)
         {
-            _jsonSerializerSettings = new JsonSerializerSettings()
-            {
-                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-                DateParseHandling = DateParseHandling.None,
-            };
-
-            if (!throwExceptions)
-            {
-                _jsonSerializerSettings.Error = delegate (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
-                                                {
-                                                    this.Error = new ApiError()
-                                                    {
-                                                        Code = args.CurrentObject.GetType().ToString(),
-                                                        Data = new StatusCode() { Code = 0 },
-                                                        Message = args.ErrorContext.Error.Message
-                                                    };
-
-                                                    args.ErrorContext.Handled = true;
-                                                };
-            }
-
-        }
-
-        public WordPressEntity(string json, string errorJson = null, bool throwExceptions = true) : this(throwExceptions)
-        {
-            
             if (!string.IsNullOrEmpty(json))
                 this.Value = FromJson(json);
 
@@ -48,7 +30,6 @@ namespace WordPressReader.Data.Models
 
             this.Raw = json;
             this.RawError = errorJson;
-
         }
 
         public WordPressEntity(HttpContent httpContent, bool isError = false, bool throwExceptions = true) : this(throwExceptions)
@@ -76,16 +57,37 @@ namespace WordPressReader.Data.Models
             }
         }
 
-        private TWordPressEntity FromJson(string json)
+        #endregion Public Constructors
+
+        #region Private Constructors
+
+        private WordPressEntity(bool throwExceptions)
         {
-            return JsonConvert.DeserializeObject<TWordPressEntity>(json, _jsonSerializerSettings);
+            _jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+                DateParseHandling = DateParseHandling.None,
+            };
+
+            if (!throwExceptions)
+            {
+                _jsonSerializerSettings.Error = delegate (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+                                                {
+                                                    this.Error = new ApiError()
+                                                    {
+                                                        Code = args.CurrentObject.GetType().ToString(),
+                                                        Data = new StatusCode() { Code = 0 },
+                                                        Message = args.ErrorContext.Error.Message
+                                                    };
+
+                                                    args.ErrorContext.Handled = true;
+                                                };
+            }
         }
 
-        private ApiError ErrorFromJson(string errorJson)
-        {
-            return JsonConvert.DeserializeObject<ApiError>(errorJson, _jsonSerializerSettings);
-        }
+        #endregion Private Constructors
 
+        #region Public Methods
 
         public string ToRaw(TWordPressEntity entity)
         {
@@ -97,15 +99,29 @@ namespace WordPressReader.Data.Models
             return JsonConvert.SerializeObject(error, _jsonSerializerSettings);
         }
 
+        #endregion Public Methods
 
-        public TWordPressEntity Value { get; }
+        #region Private Methods
 
-        public ApiError Error { get; private set;  }
+        private ApiError ErrorFromJson(string errorJson)
+        {
+            return JsonConvert.DeserializeObject<ApiError>(errorJson, _jsonSerializerSettings);
+        }
 
+        private TWordPressEntity FromJson(string json)
+        {
+            return JsonConvert.DeserializeObject<TWordPressEntity>(json, _jsonSerializerSettings);
+        }
 
+        #endregion Private Methods
 
-        public string Raw { get; private set; }
+        #region Public Properties
 
-        public string RawError { get; private set; }
+        public ApiError? Error { get; private set; }
+        public string? Raw { get; private set; }
+        public string? RawError { get; private set; }
+        public TWordPressEntity? Value { get; }
+
+        #endregion Public Properties
     }
 }

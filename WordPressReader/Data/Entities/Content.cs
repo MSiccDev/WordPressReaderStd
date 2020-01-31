@@ -4,7 +4,11 @@ namespace WordPressReader.Data.Entities
 {
     public class Content
     {
-        [JsonProperty("rendered")]
-        public string Rendered { get; set; }
+        #region Public Properties
+
+        [JsonProperty("rendered", NullValueHandling = NullValueHandling.Include)]
+        public string? Rendered { get; set; }
+
+        #endregion Public Properties
     }
 }

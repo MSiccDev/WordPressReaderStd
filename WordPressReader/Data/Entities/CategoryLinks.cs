@@ -7,22 +7,26 @@ namespace WordPressReader.Data.Entities
 {
     public class CategoryLinks
     {
-        [JsonProperty("self")]
-        public List<Link> Self { get; set; }
+        #region Public Properties
 
-        [JsonProperty("collection")]
-        public List<Link> Collection { get; set; }
+        [JsonProperty("about", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? About { get; set; }
 
-        [JsonProperty("about")]
-        public List<Link> About { get; set; }
+        [JsonProperty("collection", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Collection { get; set; }
 
-        [JsonProperty("up")]
-        public List<EmbeddableLink> Up { get; set; }
+        [JsonProperty("curies", NullValueHandling = NullValueHandling.Include)]
+        public List<Cury>? Curies { get; set; }
 
-        [JsonProperty("wp:post_type")]
-        public List<Link> WpPostType { get; set; }
+        [JsonProperty("self", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Self { get; set; }
 
-        [JsonProperty("curies")]
-        public List<Cury> Curies { get; set; }
+        [JsonProperty("up", NullValueHandling = NullValueHandling.Include)]
+        public List<EmbeddableLink>? Up { get; set; }
+
+        [JsonProperty("wp:post_type", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? WpPostType { get; set; }
+
+        #endregion Public Properties
     }
 }

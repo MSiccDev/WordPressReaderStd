@@ -5,19 +5,23 @@ namespace WordPressReader.Data.Entities
 {
     public partial class MediaLinks
     {
-        [JsonProperty("author")]
-        public List<EmbeddableLink> Author { get; set; }
+        #region Public Properties
 
-        [JsonProperty("replies")]
-        public List<EmbeddableLink> Replies { get; set; }
+        [JsonProperty("about", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? About { get; set; }
 
-        [JsonProperty("about")]
-        public List<Link> About { get; set; }
+        [JsonProperty("author", NullValueHandling = NullValueHandling.Include)]
+        public List<EmbeddableLink>? Author { get; set; }
 
-        [JsonProperty("collection")]
-        public List<Link> Collection { get; set; }
+        [JsonProperty("collection", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Collection { get; set; }
 
-        [JsonProperty("self")]
-        public List<Link> Self { get; set; }
+        [JsonProperty("replies", NullValueHandling = NullValueHandling.Include)]
+        public List<EmbeddableLink>? Replies { get; set; }
+
+        [JsonProperty("self", NullValueHandling = NullValueHandling.Include)]
+        public List<Link>? Self { get; set; }
+
+        #endregion Public Properties
     }
 }

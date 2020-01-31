@@ -4,13 +4,17 @@ namespace WordPressReader.Data.Entities
 {
     public class WpTerm
     {
-        [JsonProperty("href")]
-        public string Href { get; set; }
+        #region Public Properties
 
         [JsonProperty("embeddable")]
         public bool Embeddable { get; set; }
 
-        [JsonProperty("taxonomy")]
-        public string Taxonomy { get; set; }
+        [JsonProperty("href", NullValueHandling = NullValueHandling.Include)]
+        public string? Href { get; set; }
+
+        [JsonProperty("taxonomy", NullValueHandling = NullValueHandling.Include)]
+        public string? Taxonomy { get; set; }
+
+        #endregion Public Properties
     }
 }

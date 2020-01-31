@@ -4,7 +4,11 @@ namespace WordPressReader.Data.Entities
 {
     public class Link
     {
-        [JsonProperty("href")]
-        public string Href { get; set; }
+        #region Public Properties
+
+        [JsonProperty("href", NullValueHandling = NullValueHandling.Include)]
+        public string? Href { get; set; }
+
+        #endregion Public Properties
     }
 }

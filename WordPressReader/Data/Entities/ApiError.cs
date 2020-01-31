@@ -7,15 +7,17 @@ namespace WordPressReader.Data.Entities
 {
     public class ApiError
     {
-        [JsonProperty("code")]
-        public string Code { get; set; }
+        #region Public Properties
 
-        [JsonProperty("message")]
-        public string Message { get; set; }
+        [JsonProperty("code", NullValueHandling = NullValueHandling.Include)]
+        public string? Code { get; set; }
 
-        [JsonProperty("data")]
-        public StatusCode Data { get; set; }
+        [JsonProperty("data", NullValueHandling = NullValueHandling.Include)]
+        public StatusCode? Data { get; set; }
+
+        [JsonProperty("message", NullValueHandling = NullValueHandling.Include)]
+        public string? Message { get; set; }
+
+        #endregion Public Properties
     }
-
-
 }

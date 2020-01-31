@@ -5,40 +5,44 @@ namespace WordPressReader.Data.Entities
 {
     public class ImageMeta
     {
-        [JsonProperty("copyright")]
-        public string Copyright { get; set; }
+        #region Public Properties
 
-        [JsonProperty("iso")]
-        public string Iso { get; set; }
+        [JsonProperty("aperture", NullValueHandling = NullValueHandling.Include)]
+        public string? Aperture { get; set; }
 
-        [JsonProperty("camera")]
-        public string Camera { get; set; }
+        [JsonProperty("camera", NullValueHandling = NullValueHandling.Include)]
+        public string? Camera { get; set; }
 
-        [JsonProperty("aperture")]
-        public string Aperture { get; set; }
+        [JsonProperty("caption", NullValueHandling = NullValueHandling.Include)]
+        public string? Caption { get; set; }
 
-        [JsonProperty("caption")]
-        public string Caption { get; set; }
+        [JsonProperty("copyright", NullValueHandling = NullValueHandling.Include)]
+        public string? Copyright { get; set; }
 
-        [JsonProperty("credit")]
-        public string Credit { get; set; }
+        [JsonProperty("created_timestamp", NullValueHandling = NullValueHandling.Include)]
+        public string? CreatedTimestamp { get; set; }
 
-        [JsonProperty("created_timestamp")]
-        public string CreatedTimestamp { get; set; }
+        [JsonProperty("credit", NullValueHandling = NullValueHandling.Include)]
+        public string? Credit { get; set; }
 
-        [JsonProperty("focal_length")]
-        public string FocalLength { get; set; }
+        [JsonProperty("focal_length", NullValueHandling = NullValueHandling.Include)]
+        public string? FocalLength { get; set; }
 
-        [JsonProperty("orientation")]
-        public string Orientation { get; set; }
+        [JsonProperty("iso", NullValueHandling = NullValueHandling.Include)]
+        public string? Iso { get; set; }
 
-        [JsonProperty("keywords")]
-        public List<object> Keywords { get; set; }
+        [JsonProperty("keywords", NullValueHandling = NullValueHandling.Include)]
+        public List<object>? Keywords { get; set; }
 
-        [JsonProperty("shutter_speed")]
-        public string ShutterSpeed { get; set; }
+        [JsonProperty("orientation", NullValueHandling = NullValueHandling.Include)]
+        public string? Orientation { get; set; }
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
+        [JsonProperty("shutter_speed", NullValueHandling = NullValueHandling.Include)]
+        public string? ShutterSpeed { get; set; }
+
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Include)]
+        public string? Title { get; set; }
+
+        #endregion Public Properties
     }
 }

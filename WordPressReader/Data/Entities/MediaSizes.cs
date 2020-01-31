@@ -4,22 +4,26 @@ namespace WordPressReader.Data.Entities
 {
     public partial class MediaSizes
     {
-        [JsonProperty("large")]
-        public MediaContentSize Large { get; set; }
+        #region Public Properties
 
-        [JsonProperty("medium_large")]
-        public MediaContentSize MediumLarge { get; set; }
+        [JsonProperty("full", NullValueHandling = NullValueHandling.Include)]
+        public MediaContentSize? Full { get; set; }
 
-        [JsonProperty("full")]
-        public MediaContentSize Full { get; set; }
+        [JsonProperty("large", NullValueHandling = NullValueHandling.Include)]
+        public MediaContentSize? Large { get; set; }
 
-        [JsonProperty("medium")]
-        public MediaContentSize Medium { get; set; }
+        [JsonProperty("medium", NullValueHandling = NullValueHandling.Include)]
+        public MediaContentSize? Medium { get; set; }
 
-        [JsonProperty("sow-carousel-default")]
-        public MediaContentSize SowCarouselDefault { get; set; }
+        [JsonProperty("medium_large", NullValueHandling = NullValueHandling.Include)]
+        public MediaContentSize? MediumLarge { get; set; }
 
-        [JsonProperty("thumbnail")]
-        public MediaContentSize Thumbnail { get; set; }
+        [JsonProperty("sow-carousel-default", NullValueHandling = NullValueHandling.Include)]
+        public MediaContentSize? SowCarouselDefault { get; set; }
+
+        [JsonProperty("thumbnail", NullValueHandling = NullValueHandling.Include)]
+        public MediaContentSize? Thumbnail { get; set; }
+
+        #endregion Public Properties
     }
 }
