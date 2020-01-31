@@ -1,6 +1,6 @@
 # WordPressReader (Standard) 
 
-WordPressReaderStd aims to simplify development of WordPress reader apps. It is written and compiled with .netStandard 1.4 to enable usage of it everywhere you can use .netStandard libraries. The only dependecy it has is Newtonsoft.Json just because you cannot find any better json-library out there.
+WordPressReaderStd aims to simplify development of WordPress reader apps. It is written and compiled against .netStandard 2.1 (as of version 2.1.0). The only dependecy it has is Newtonsoft.Json just because you cannot find any better json-library out there.
 
 The library is also available on [Nuget](https://www.nuget.org/packages/WordPressReader/)
 
